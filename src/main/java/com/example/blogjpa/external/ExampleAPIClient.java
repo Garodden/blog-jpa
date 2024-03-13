@@ -1,4 +1,4 @@
-package com.example.blogjpa.controller;
+package com.example.blogjpa.external;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
