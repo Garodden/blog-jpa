@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @NoArgsConstructor
@@ -14,15 +15,15 @@ public class ArticleCommentResponse {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private List<Comment> comments;
-    public ArticleCommentResponse(Article article, List<Comment> comments) {
+    private String createdAt;
+    private String updatedAt;
+    private List<CommentResponse> comments;
+    public ArticleCommentResponse(Article article, List<CommentResponse> comments) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
-        this.createdAt = article.getCreatedAt();
-        this.updatedAt = article.getUpdatedAt();
+        this.createdAt = Comment.changeDateFormat(article.getCreatedAt());
+        this.updatedAt = Comment.changeDateFormat(article.getUpdatedAt());
         this.comments = comments;
     }
 }

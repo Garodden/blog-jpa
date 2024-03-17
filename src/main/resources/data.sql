@@ -12,7 +12,7 @@ CREATE TABLE comment(
     id BIGINT AUTO_INCREMENT primary key,
     article_id BIGINT not null,
     body varchar(255) not null,
-    created_at TIMESTAMP not null,
+    created_at DATETIME not null,
     FOREIGN KEY (article_id) REFERENCES article(id)
 );
 

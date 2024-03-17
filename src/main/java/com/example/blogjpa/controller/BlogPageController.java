@@ -22,6 +22,7 @@ public class BlogPageController {
 
     public BlogPageController(BlogService blogService) {
         this.blogService = blogService;
+
     }
 
     @GetMapping("/articles")
@@ -54,26 +55,5 @@ public class BlogPageController {
             model.addAttribute("article", new ArticleViewResponse(article));
         }
         return "newArticle";
-    }
-
-    @GetMapping("/comments/{articleId}")
-    @ResponseBody
-    public ArticleCommentResponse showArticle(@PathVariable Long articleId) {
-        Article article = blogService.findById(articleId);
-        List<Comment> comments = blogService.findAllCommentByArticleID(articleId);
-        ArticleCommentResponse commentResponse = new ArticleCommentResponse(article, comments);
-        return commentResponse;
-    }
-
-    @GetMapping("/comments/{articleId}/{commentId}")
-    @ResponseBody
-    public Comment showComment(@PathVariable Long articleId,@PathVariable Long commentId){
-        Comment comment = blogService.findByArticleIdAndId(articleId, commentId);
-        return comment;
-    }
-
-    @PostMapping("/comments/{articleId}")
-    public void saveComment(@PathVariable Long articleId, @RequestBody String body){
-        blogService.saveComment(articleId, body);
     }
 }
