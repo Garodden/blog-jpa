@@ -1,12 +1,15 @@
 package com.example.blogjpa.controller;
 import com.example.blogjpa.Service.BlogService;
 import com.example.blogjpa.domain.Article;
+import com.example.blogjpa.domain.Comment;
 import com.example.blogjpa.dto.AddArticleRequest;
+import com.example.blogjpa.dto.ArticleCommentResponse;
 import com.example.blogjpa.dto.ArticleResponse;
 
 import com.example.blogjpa.dto.ArticleViewResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +37,8 @@ public class BlogPageController {
     @GetMapping("/articles/{id}")
     public String showArticle(@PathVariable Long id, Model model) {
         Article article = blogService.findById(id);
+        List<Comment> comments = blogService.findAllCommentByArticleID(id);
+
         model.addAttribute("article", new ArticleViewResponse(article));
 
         return "article";
@@ -51,4 +56,24 @@ public class BlogPageController {
         return "newArticle";
     }
 
+    @GetMapping("/comments/{articleId}")
+    @ResponseBody
+    public ArticleCommentResponse showArticle(@PathVariable Long articleId) {
+        Article article = blogService.findById(articleId);
+        List<Comment> comments = blogService.findAllCommentByArticleID(articleId);
+        ArticleCommentResponse commentResponse = new ArticleCommentResponse(article, comments);
+        return commentResponse;
+    }
+
+    @GetMapping("/comments/{articleId}/{commentId}")
+    @ResponseBody
+    public Comment showComment(@PathVariable Long articleId,@PathVariable Long commentId){
+        Comment comment = blogService.findByArticleIdAndId(articleId, commentId);
+        return comment;
+    }
+
+    @PostMapping("/comments/{articleId}")
+    public void saveComment(@PathVariable Long articleId, @RequestBody String body){
+        blogService.saveComment(articleId, body);
+    }
 }
