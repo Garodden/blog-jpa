@@ -3,7 +3,6 @@ package com.example.blogjpa.Service;
 import com.example.blogjpa.domain.Article;
 import com.example.blogjpa.domain.Comment;
 import com.example.blogjpa.dto.AddArticleRequest;
-import com.example.blogjpa.dto.UpdateArticleRequest;
 import com.example.blogjpa.repository.BlogRepository;
 import com.example.blogjpa.repository.CommentRepository;
 import jakarta.transaction.Transactional;
@@ -39,7 +38,7 @@ public class BlogService {
     public List<Comment> findAllCommentByArticleID(Long articleId){ return commentRepository.findAllByArticleId(articleId);}
 
     @Transactional
-    public Article update(Long id, UpdateArticleRequest request) {
+    public Article update(Long id, AddArticleRequest request) {
         Article article = blogRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found " + id));
 
@@ -55,5 +54,9 @@ public class BlogService {
     public void saveComment(Long articleID, String body) {
         Comment comment = new Comment(articleID, body);
         commentRepository.save(comment);
+    }
+
+    public void deleteById(Long id) {
+        blogRepository.deleteById(id);
     }
 }
