@@ -13,7 +13,7 @@ public interface BlogRepository extends JpaRepository<Article, Long> {
     Article findAllById(Long id);
     List<Article> findByTitle(String title);
     void deleteById(Long id);
-
+    void deleteByTitle(String title);
     @Modifying
     @Query("update Article set title = :title where id = :id")
     void updateTitle(Long id, String title);
